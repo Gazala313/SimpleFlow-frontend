@@ -1,0 +1,33 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 20px;
+    background-color: #1e293b;
+    color: white;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-logout {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.sidebar button {
+    padding: 10px;
+    border: none;
+    background-color: #1e293b;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.sidebar button:hover {
+    color: #354dd8;
+}
