@@ -1,4 +1,4 @@
-import api from "./services/api";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 export const clientId = import.meta.env.VITE_CLIENT_ID;
 export const authority = import.meta.env.VITE_AUTHORITY;
@@ -22,3 +22,4 @@ export const loginRequest = {
   scopes: ["openid", "profile", "email"],
 };
 
+export const msalInstance = new PublicClientApplication(msalConfig);
