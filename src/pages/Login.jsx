@@ -12,6 +12,7 @@ const Login = () => {
 
     useEffect(() => {
         accounts.length > 0 && navigate("/dashboard");
+        localStorage.setItem("username", accounts[0]?.username);
     }, [accounts])
 
     const handleLogin = async () => {

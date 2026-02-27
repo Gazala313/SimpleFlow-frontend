@@ -13,8 +13,6 @@ const UsersPage = () => {
     const [editOpen, setEditOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const username = useSelector((state) => state.users.list).find(u => u.email === localStorage.getItem("username"))
-
-
     const userRole = newRole(username?.role_id)
 
     useEffect(() => {
@@ -77,7 +75,7 @@ const UsersPage = () => {
                 <h1>Users</h1>
 
                 {/* 🔥 Show only if admin */}
-                {userRole === "admin" && (
+                {userRole === "Admin" && (
                     <button
                         style={{
                             padding: "8px 16px",
@@ -117,7 +115,7 @@ const UsersPage = () => {
                         <th style={thStyle}>Name</th>
                         <th style={thStyle}>Email</th>
                         <th style={thStyle}>Role</th>
-                        {userRole === "admin" && (<th style={thStyle}>Actions</th>)}
+                        {userRole === "Admin" && (<th style={thStyle}>Actions</th>)}
                     </tr>
                 </thead>
 
@@ -127,7 +125,7 @@ const UsersPage = () => {
                             <td style={tdStyle}>{user.name}</td>
                             <td style={tdStyle}>{user.email}</td>
                             <td style={tdStyle}>{newRole(user.role_id)}</td>
-                            {userRole === "admin" && (
+                            {userRole === "Admin" && (
                                 <td style={tdStyle}>
                                     <div style={{ display: "flex", gap: "8px" }}>
                                         <button
