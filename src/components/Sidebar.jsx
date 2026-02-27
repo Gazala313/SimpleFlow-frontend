@@ -1,13 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/sidebar.css";
+import { useMsal } from "@azure/msal-react";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const { instance } = useMsal();
 
   const handleLogout = () => {
     // Clear auth data (adjust based on your app)
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     sessionStorage.clear();
+    instance.logoutRedirect({
+      postLogoutRedirectUri: "/",
+    });
 
     // Redirect to login page
     navigate("/login");

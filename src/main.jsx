@@ -7,8 +7,13 @@ import App from "./App";
 import { msalInstance } from "./authConfig";
 
 async function bootstrap() {
-  await msalInstance.initialize();   
-  await msalInstance.handleRedirectPromise();  
+  await msalInstance.initialize();
+
+  const response = await msalInstance.handleRedirectPromise();
+
+  if (response) {
+    msalInstance.setActiveAccount(response.account);
+  }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <MsalProvider instance={msalInstance}>

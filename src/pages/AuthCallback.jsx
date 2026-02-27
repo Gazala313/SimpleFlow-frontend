@@ -1,35 +1,20 @@
-import { useMsal } from "@azure/msal-react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { Navigate } from "react-router-dom";
 
-function AuthCallback() {
-    const { instance } = useMsal();
-    const navigate = useNavigate();
+const ProtectedRoute = ({ children }) => {
+  const { inProgress } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
 
-    useEffect(() => {
-        const hash = window.location.hash;
-        // console.log("Auth hash:", hash);
+  if (inProgress !== "none") {
+    return <div>Loading...</div>;
+  }
 
-        // Extract code from hash
-        const params = new URLSearchParams(hash.replace("#", "?"));
-        const code = params.get("code");
+  if (!isAuthenticated) {
+    console.log(isAuthenticated)
+    return <Navigate to="/login" replace />;
+  }
 
-        if (code) {
-            // console.log("Auth Code:", code);
-            navigate("/dashboard");
-            // Send code to backend to exchange for token
-        }
-    }, []);
+  return children;
+};
 
-    useEffect(() => {
-        instance.handleRedirectPromise().then((response) => {
-            if (response) {
-                navigate("/");
-            }
-        });
-    }, []);
-
-    return <div>Processing login...</div>;
-}
-
-export default AuthCallback;
+export default ProtectedRoute;

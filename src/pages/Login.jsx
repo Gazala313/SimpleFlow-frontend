@@ -3,27 +3,22 @@ import { loginRequest } from "../authConfig";
 import { Divider } from "antd";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 const Login = () => {
-    const { instance } = useMsal();
+    const { instance, accounts } = useMsal();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        accounts.length > 0 && navigate("/dashboard");
+    }, [accounts])
 
     const handleLogin = async () => {
         try {
-            const loginResponse = await instance.loginRedirect({
+            await instance.loginRedirect({
                 scopes: ['User.Read'],
             });
-            navigate("/dashboard");
-            const token = loginResponse.accessToken;
-            const email = loginResponse.account.username;
-            const name = loginResponse.account.name;
-
-            // Save to localStorage
-            localStorage.setItem("id_token", loginResponse);
-            localStorage.setItem("token", token);
-            localStorage.setItem("email", email);
-            localStorage.setItem("name", name);
         } catch (error) {
             console.error('Login failed:', error);
         }
@@ -66,7 +61,7 @@ const Login = () => {
 
                     <div className="footer-links">
                         <a href="#">Terms of Use</a>
-                        <Divider className="nav-divider" type="vertical" />
+                        <Divider className="nav-divider" orientation="vertical" />
                         <a href="#">Privacy Policy</a>
                     </div>
                 </div>
