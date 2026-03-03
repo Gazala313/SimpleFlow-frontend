@@ -34,10 +34,10 @@ const ProjectPage = () => {
                     "Authorization"
                 ] = `Bearer ${response.accessToken}`;
 
-                dispatch(fetchProjects());
             }
         };
         getTokenAndFetch();
+        dispatch(fetchProjects());
     }, [dispatch, instance, accounts]);
 
     const handleCreateProject = async (payload) => {
