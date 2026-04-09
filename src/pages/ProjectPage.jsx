@@ -18,27 +18,14 @@ const ProjectPage = () => {
     const { list, loading, error } = useSelector(
         (state) => state.projects
     );
-    const username = useSelector((state) => state.users.list).find(u => u.email === localStorage.getItem("username"))
+    const username = useSelector((state)=> state.users.list[0])
+    // const username = useSelector((state) => state.users.list).find(u => u.email === localStorage.getItem("username"))
 
 
     const userRole = newRole(username?.role_id)
     useEffect(() => {
-        const getTokenAndFetch = async () => {
-            if (accounts.length > 0) {
-                const response = await instance.acquireTokenSilent({
-                    ...loginRequest,
-                    account: accounts[0],
-                });
-
-                api.defaults.headers.common[
-                    "Authorization"
-                ] = `Bearer ${response.accessToken}`;
-
-            }
-        };
-        getTokenAndFetch();
         dispatch(fetchProjects());
-    }, [dispatch, instance, accounts]);
+    }, [dispatch]);
 
     const handleCreateProject = async (payload) => {
         try {

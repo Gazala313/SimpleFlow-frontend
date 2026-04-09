@@ -9,9 +9,9 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated || accounts.length === 0) {
-    return <Navigate to="/login" replace />;
-  }
+  // if ( !isAuthenticated || accounts.length === 0) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
   return children;
 };

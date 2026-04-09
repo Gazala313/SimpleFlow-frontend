@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
     RouterProvider,
@@ -24,13 +24,21 @@ const SuspenseWrapper = ({ children }) => (
 
 export default function Routes() {
     const { accounts, inProgress } = useMsal();
+
+    //  useEffect(() => {
+    //     if (accounts.length > 0) {
+    //         console.log(accounts)
+    //         localStorage.setItem("token", accounts[0].accessToken);
+    //     }
+    // }, [accounts]);
+
     if (inProgress !== "none") {
         return <Spin fullscreen />;
     }
     const routes = createBrowserRouter(
         createRoutesFromElements(
             <>
-                <Route path="/" element={accounts.length > 0 ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+                {/* <Route path="/" element={accounts.length > 0 ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} /> */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
 

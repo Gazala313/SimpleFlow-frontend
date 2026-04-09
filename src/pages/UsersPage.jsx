@@ -12,7 +12,7 @@ const UsersPage = () => {
     const { list, loading, error } = useSelector((state) => state.users);
     const [editOpen, setEditOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-    const username = useSelector((state) => state.users.list).find(u => u.email === localStorage.getItem("username"))
+    const username = useSelector((state)=> state.users.list[0])
     const userRole = newRole(username?.role_id)
 
     useEffect(() => {

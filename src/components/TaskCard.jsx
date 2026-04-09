@@ -15,15 +15,15 @@ const TaskCard = ({ task }) => {
     const { list, loading, error } = useSelector((state) => state.tasks);
     const [open, setOpen] = useState(false);
     const usersList = useSelector((state) => state.users.list)
-    const username = usersList.find(u => u.email === localStorage.getItem("username"))
+    const username = useSelector((state)=> state.users.list[0])
     const userRole = newRole(username?.role_id)
     const [editOpen, setEditOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
 
-    useEffect(() => {
-        if (id) dispatch(fetchTasks(id));
-        dispatch(fetchUsers());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     if (id) dispatch(fetchTasks(id));
+    //     dispatch(fetchUsers());
+    // }, [dispatch]);
 
     const newList = list.map((item) => ({
         ...item,

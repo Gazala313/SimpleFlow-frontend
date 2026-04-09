@@ -4,47 +4,72 @@ import { Divider } from "antd";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import api from "../services/api";
+import { setAdminData } from "../features/adminSlice";
 
 
 const Login = () => {
     const { instance, accounts } = useMsal();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        accounts.length > 0 && navigate("/dashboard");
-        localStorage.setItem("username", accounts[0]?.username);
-    }, [accounts])
+    const handlegetUserDetails = async (data) => {
+        await api.get(`/users/user/${data}/`).then((response) => {
+            dispatch(setAdminData(response.data));
+            navigate("/dashboard");
+        }).catch((error) => {
+            console.error("Failed to fetch user details:", error);
+        })
+    };
+
+    // useEffect(() => {
+    //     // accounts.length > 0 && navigate("/dashboard");
+    //     handlegetUserDetails(accounts[0]?.username);
+
+    // }, [accounts, dispatch]);
 
     const handleLogin = async () => {
-        try {
-            await instance.loginRedirect({
-                scopes: ['User.Read'],
-            });
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
+        handlegetUserDetails("gazala.parveen@tigeranalytics.com");
+        // const loginRequest = {
+        //     scopes: ["api://801114f2-4838-473c-998f-6aac9a09255a/access_as_user"]
+        // };
+        // try {
+        //    await instance.loginRedirect(loginRequest);
+        // } catch (error) {
+        //     console.error('Login failed:', error);
+        // }
     }
+
+    useEffect(() => {
+    const getToken = async () => {
+        const accounts = instance.getAllAccounts();
+
+        if (accounts.length > 0) {
+            const response = await instance.acquireTokenSilent({
+                scopes: ["api://801114f2-4838-473c-998f-6aac9a09255a/access_as_user"],
+                account: accounts[0],
+            });
+
+            const token = response.accessToken;
+
+            console.log("Access Token:", token);
+
+            localStorage.setItem("token", token);
+        }
+    };
+
+    getToken();
+}, []);
 
     return (
         <div className="login-container">
             <div className="left-panel">
                 <div className="left-logo">
-                    {/* <img
-                        className="dfi-logo"
-                        src={DFILogo}
-                        alt="DFI"
-                        style={{ cursor: "pointer" }}
-                    /> */}
                 </div>
                 <div className="left-content">
 
                     <h2 className="title">Welcome to<br />Task Tracker</h2>
-
-                    {/* <p className="desc">
-                        Your intelligent data companion —<br />
-                        ask, analyze, and visualize insights<br />
-                        from DFI’s data with ease.
-                    </p> */}
                 </div>
             </div>
 
